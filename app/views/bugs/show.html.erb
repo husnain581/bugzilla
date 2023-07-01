@@ -1,0 +1,48 @@
+<% unless @bug.assigned_to.present? %>
+  <br>
+  <% if current_user.developer?%>
+    <%= button_to "Assign Bug to me", assign_bug_bug_path, method: :post, class: "btn btn-primary" %>
+  <% end %>
+  <br>
+<% end %>
+<% if current_user == @bug.assigned_to && !@bug.resolved? %>
+  <br>
+  <%= button_to "Mark it resolved", bug_resolved_bug_path, method: :post, class: "btn btn-primary" %>
+<% end %>
+<br>
+
+<dl class="row">
+  <dt class="col-sm-3">Title:</dt>
+  <dd class="col-sm-9"> <%=@bug.title%> </dd>
+
+  <dt class="col-sm-3">Description:</dt>
+  <dd class="col-sm-9"> <%=@bug.description%> </dd>
+
+  <dt class="col-sm-3">Deadline:</dt>
+  <dd class="col-sm-9"> <%=@bug.deadline%> </dd>
+
+  <dt class="col-sm-3">Type:</dt>
+  <dd class="col-sm-9"> <%=@bug.bug_type%> </dd>
+
+  <dt class="col-sm-3">Status:</dt>
+  <dd class="col-sm-9"> <%=@bug.status%> </dd>
+
+  <dt class="col-sm-3">Creater:</dt>
+  <dd class="col-sm-9"> <%=@bug.user.name%> </dd>
+
+  <dt class="col-sm-3">Developer:</dt>
+  <dd class="col-sm-9"> <%=@bug.assigned_to&.name%> </dd>
+
+  <dt class="col-sm-3">Project:</dt>
+  <dd class="col-sm-9"> <%=@bug.project.name%> </dd>
+
+  <% if @bug.image.attached? %>
+    <dt class="col-sm-3">Screen Shot:</dt>
+    <%= cl_image_tag @bug.image.key, :width=>150, :crop=>"fill", class: "rounded mx-auto d-block" %>
+  <% end %>
+</dl>
+
+<br>
+<% if current_user.qa?%>
+  <%= link_to 'Edit', edit_bug_path(@bug), class: "btn btn-primary" %>
+<% end %>

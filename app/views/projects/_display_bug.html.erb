@@ -1,0 +1,36 @@
+<h3>Project Bugs</h3>
+<table class='table'>
+  <thead class='thead-dark'>
+    <tr>
+      <th scope='col'>Title</th>
+      <th scope='col'>Description</th>
+      <th scope='col'>Deadline</th>
+      <th scope='col'>Type</th>
+      <th scope='col'>Status</th>
+      <th scope='col'>Creator</th>
+      <th scope="col">Actions</th>
+      <% if current_user.qa?%>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% bugs.each do |bug| %>
+      <tr scope='row'>
+        <td><%= bug.title %></td>
+        <td><%= bug.description %></td>
+        <td><%= bug.deadline %></td>
+        <td><%= bug.bug_type %></td>
+        <td><%= bug.status %></td>
+        <td><%= bug.user.name %></td>
+        <td><%= link_to 'Show', bug %></td>
+        <% if current_user.qa?%>
+          <td><%= link_to 'Edit', edit_bug_path(bug) %></td>
+          <td><%= link_to 'Destroy', bug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

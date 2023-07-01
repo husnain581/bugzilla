@@ -1,0 +1,24 @@
+<div class="card-body">
+  <% if project.users.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">USER TYPE</th>
+          <th scope="col">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @project.users.non_managers.each do |user| %>
+          <tr>
+            <th><%= user.name%></th>
+            <th><%= user.user_type%></th>
+            <th><%= link_to "Remove from project", remove_from_project_project_path(@project.id, user_id: user.id), method: :delete, remote: true, data: { confirm: "Are you sure you want to Remove?" }, class: "btn btn-outline-danger remove-user" if policy(:project).remove_from_project? %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="alert text-center">There is no user in this project</p>
+  <% end %>
+</div>

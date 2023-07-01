@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel">ADD USER TO PROJECT</h4>
+  <button type="button" class="close" data-dismiss="modal">x</button>
+</div>
+<div class="modal-body">
+  <ul class="list-group">
+    <% @users.each do |user| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center" id="<%=user.id%>"> <%=user.name%>  -------------  <%= user.user_type%>
+          <%= link_to 'Add user', add_user_project_path(@project, user_id: user.id), class: "btn btn-primary", method: :post  %>
+        </li>
+    <%end%>
+  </ul>
+</div>
+<div class="d-flex justify-content-center">
+</div>

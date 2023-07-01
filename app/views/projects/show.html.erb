@@ -1,0 +1,24 @@
+<p>
+  <strong>Name:</strong>
+  <%= @project.name %>
+</p>
+
+<% if @bugs.present?%>
+  <%= render 'display_bug', bugs: @bugs %>
+<% end %>
+
+<%= link_to 'Add user', add_user_modal_project_path(@project),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-primary'}  if policy(:project).add_user_modal? %>
+<%= render 'remove_users', project: @project%>
+
+<div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+<br>
+<% if current_user.qa?%>
+  <%= link_to 'Create a bug', new_project_bug_path(@project), class: "btn btn-primary"%>
+<% end %>
+<br><br>
+<%= link_to 'Edit', edit_project_path(@project), class: "btn btn-primary" %> |
+<%= link_to 'Back', projects_path, class: "btn btn-primary" %>

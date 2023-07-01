@@ -1,0 +1,57 @@
+<%= form_for bug, url: path  do |form| %>
+  <div class="card">
+    <div class="card-body">
+      <% if bug.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+          <ul>
+          <% bug.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field mb-3">
+        <%= form.label :title, { class: "form-label"} %>
+        <%= form.text_field :title, required: true %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :description, { class: "form-label"} %>
+        <%= form.text_field :description %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :deadline, { class: "form-label"} %>
+        <%= form.datetime_select :deadline %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :bug_type, { class: "form-label"} %>
+        <%= form.select :bug_type, options_for_select(Bug.bug_types.map {|key, value| [key.titleize, value]}, @bug.bug_type), {}, {onchange: 'update_dropdown()', include_blank: false, id: "type_dropdown", required: true} %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :status, { class: "form-label"} %>
+        <%= form.select :status, options_for_select(@dropdownfields), {}, { id: "status_field", required: true } %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :image, { class: "form-label"} %>
+        <%= form.file_field :image, direct_upload: true, accept: "image/png,image/gif" %>
+      </div>
+
+      <div class="field mb-3">
+        <%= form.label :assign_to, { class: "form-label"} %>
+        <%= form.select :assigned_to_id, options_for_select(User.developer.map{ |developer| [developer.name, developer.id]}), include_blank: "Select developer" %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Submit", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
